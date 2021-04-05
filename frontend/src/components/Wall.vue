@@ -4,7 +4,7 @@
         <p>Chargement des messages... </p>
     </div>
     <div v-if="!Loading && Connected && NoData" class="spinner-border text-primary text-center" id="WallLoad">
-        <p>Aucuns messages a charger ... a vous de jouer! :D </p>
+        <p>Aucuns messages de postés </p>
     </div>
     <!-- POST START-->
     <div v-for="Post in Posts" :key="Post">
