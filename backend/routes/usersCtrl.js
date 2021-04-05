@@ -1,4 +1,3 @@
-// Activation du mode STRICT de Javascript
 "use strict";
 
 // Imports
@@ -23,38 +22,28 @@ module.exports = {
   register: function(req, res, next){
     // Params 
 
-    //  Récupération des paramètres envoyés dans la requête
     let email = req.body.email;
     let username = req.body.username;
     let password = req.body.password;
     let bio = req.body.bio;
 
-    // Vérifier que les données obligatoires ont bien été récupérées
     if(email == null || username == null || password == null){
       return res.status(400).json({'error':'missing parameters'});
     }
 
-    // Vérification des variables envoyés
 
-    // Si le pseudo est égal ou plus grand que 16, ou infèrieur ou égal à 4 on rejette la demande
     if (username.length >= 16 || username.length <= 4){
       return res.status(400).json({'error':'username must be length 5 - 15'});
     }
 
-    // Vérification de l'adresse E-Mail via le Regex
     if (!EMAIL_REGEX.test(email)){
         return res.status(400).json({'error':'email is not valid'});
     }
 
-    // Vérification du mot de passe via le Regex
     if (!PASSWORD_REGEX.test(password)){
         return res.status(400).json({'error':'Password must be minimum 8 digits at least one uppercase letter, one lowercase letter and one number.'});
     }
-
-    // Après vérifications, Ajout de l'utilisateur dans la base de données
-
-    // L'utilisateur existe-t-il dans la base ? (promesse)
-       
+      
     asyncLib.waterfall([
       function(done) {
         models.User.findOne({
@@ -105,20 +94,15 @@ module.exports = {
   },
 
   login: function(req, res, next){
-    // Récupération des paramètres de connexion (User & Mdp)
 
     let email = req.body.email;
     let password = req.body.password;
 
-    // Vérification des variables envoyés
 
     if (email == null || password == null) {
         return res.status(400).json({'error':'missing parameters'});
     }
 
-    // TODO verify mail regex & password length
-
-    // L'utilisateur existe-t-il dans la base ? (promesse)
 
     asyncLib.waterfall([
       function(done) {
@@ -165,17 +149,13 @@ module.exports = {
   },
 
   getUserProfile: function(req, res, next){
-    // Récupération de l'en-tête d'autorisation
     let headerAuth = req.headers['authorization'];
 
-    // Vérifier que ce token est valide pour faire une requête en BDD
     let userId = jwtUtils.getUserId(headerAuth);
 
-    // Vérifier que userId n'est pas négatif (par sécurité)
     if (userId <0)
         return res.status(400).json({'error':'wrong token'});
 
-    // Si tout va bien, on fait un appel ORM(sequelize) pour récupérer les informations de l'utilisateur en BDD
     models.User.findOne({
         attributes: ['id', 'email', 'username', 'bio', 'isAdmin'],
         where: {id: userId}
@@ -193,57 +173,45 @@ module.exports = {
   },
 
   updateUserProfile: function(req, res, next){
-    // Récupération de l'en-tête d'autorisation
     let headerAuth = req.headers['authorization'];
 
-    // Vérifier que ce token est valide pour faire une requête en BDD
     let userId = jwtUtils.getUserId(headerAuth);
 
-    // Params : Récupération des données du Frontend.
     let bio = req.body.bio;
 
     asyncLib.waterfall([
       function(done){
-        // Récupérer l'utilisateur dans la base de données
         models.User.findOne({
             attributes: ['id', 'bio'],
             where: {id: userId}
         })
         .then(function(userFound){
-            // Si l'utilisateur est trouvé, le retourner
             done(null,userFound);
         })
         .catch(function(err){
-            // Sinon envoyer une erreur
             return res.status(500).json({'error':'unable to verify user'});
         });
       },
       function(userFound, done){
-        // Vérifier si l'utilisateur est valide
         if(userFound) {
-          // Après vérification, mise à jour des données concernées
           userFound.update({
               bio: (bio? bio : userFound.bio)
           })
           .then(function(){
-              // Opération réussie
               done(userFound);
           })
           .catch(function(err){
               res.status(500).json({'error':'cannot update user'});
           });
         } else {
-          // si celui-ci n'existe pas, retourner une erreur
           res.status(404).json({'error':'user not found'});
         }
       },
     ],
     function(userFound){
       if(userFound){
-          // Mise à jour effectuée
           return res.status(201).json(userFound);
       } else {
-          // Une erreur est survenue
           return res.status(500).json({'error':'cannot update user profile'});
       }
     });
@@ -251,16 +219,13 @@ module.exports = {
 
   deleteProfile: function(req, res, next){
 
-    // Récupération de l'en-tête d'autorisation
     let headerAuth = req.headers['authorization'];
 
-    // Vérifier que ce token est valide pour faire une requête en BDD
     let userId = jwtUtils.getUserId(headerAuth);
 
     asyncLib.waterfall([
       function(done){
         console.log(1 + ": Récupérer l'utilisateur dans la base de données");
-        // Récupérer l'utilisateur dans la base de données
         models.User.findOne({
           attributes : ['id','email','username'],
           where: {id: userId},
@@ -272,7 +237,6 @@ module.exports = {
         })
         .then(userFound => {
           console.log(2 + ": Verification des likes liées pour suppression...");
-          // Vérification des likes liés pour suppression
           models.Like.findAll({
             attributes: ['id','userId', 'messageId'],
             where: {
@@ -282,7 +246,6 @@ module.exports = {
           })
           .then(function(isLiked){
             console.log(2-1 + ": Décrémentation des compteurs...");
-            // Décrémentation du compteur lié...
             for(let likeFound in isLiked){
               models.Message.findOne({
                 where: {id:isLiked[likeFound].messageId}
@@ -306,7 +269,6 @@ module.exports = {
         })
         .then(likeFound => {
           console.log(3 + ": Verification des Comment liées pour suppression...");
-          // Vérification des Comment liés pour suppression
           models.Comment.destroy({
             where: { userId },
             cascade : true,
@@ -322,7 +284,6 @@ module.exports = {
 
       function(done){
         console.log(4 + ": Récupératon des messages de l'utilisateur...");
-        // Récupération de tous les messages de l'utilisateur...
         models.Message.findAll({
           attributes:['id'],
           where: { userId },
@@ -368,7 +329,6 @@ module.exports = {
 
       function(completed, done){
         console.log(8 + ": Suppression du compte de l'utilisateur");
-        // Suppression du compte de l'utilisateur
         models.User.destroy({
           where: { id : userId }
         })
@@ -383,36 +343,29 @@ module.exports = {
   },
 
   getOneUserProfile: function(req, res, next){
-    // Récupération de l'en-tête d'autorisation
     let headerAuth = req.headers['authorization'];
     let Username = req.body.Username;
     console.log(Username);
 
-    // Vérifier que ce token est valide pour faire une requête en BDD
     let userId = jwtUtils.getUserId(headerAuth);
 
-    // Vérifier que userId n'est pas négatif (par sécurité)
     if (userId <0)
         return res.status(400).json({'error':'wrong token'});
     
     asyncLib.waterfall([
       function(done){
-        // Récupérer l'utilisateur dans la base de données
         models.User.findOne({
             where: {id: userId}
         })
         .then(function(userFound){
-            // Si l'utilisateur est rouvé, le retourner
             done(null,userFound);
         })
         .catch(function(err){
-            // Sinon envoyer une erreur
             return res.status(500).json({'error':'unable to verify user'});
         });
       },
 
       function(userFound, done){
-        // Vérifier si l'utilisateur dispose des droits admin
         models.User.findOne({
             attributes : ['isAdmin'],
             where : {isAdmin: userFound.isAdmin}
@@ -431,7 +384,6 @@ module.exports = {
       },
 
       function(done){
-        // Si tout va bien, on fait un appel ORM(sequelize) pour récupérer les informations de l'utilisateur en BDD
         models.User.findOne({
           attributes: ['id', 'username', 'isAdmin'],
           where: {username: Username}
@@ -449,45 +401,36 @@ module.exports = {
       }
     ], function(done){
         if(done){
-          // OK
           return res.status(201).json({'message':'user found' + done});
         } else {
-          // Erreur.
           return res.status(500).json({'error':'cannot find user'});
         }
     })
   },
 
   updateUserAddRights: function(req, res, next){
-    // Récupération de l'en-tête d'autorisation
     let headerAuth = req.headers['authorization'];
     let Username = req.body.Username;
 
-    // Vérifier que ce token est valide pour faire une requête en BDD
     let userId = jwtUtils.getUserId(headerAuth);
 
-    // Vérifier que userId n'est pas négatif (par sécurité)
     if (userId <0)
         return res.status(400).json({'error':'wrong token'});
 
     asyncLib.waterfall([
       function(done){
-        // Récupérer l'utilisateur dans la base de données
         models.User.findOne({
           where: {id: userId}
         })
         .then(function(userFound){
-          // Si l'utilisateur est rouvé, le retourner
           done(null,userFound);
         })
         .catch(function(err){
-          // Sinon envoyer une erreur
           return res.status(500).json({'error':'unable to verify user'});
         });
       },
 
       function(userFound, done){
-        // Vérifier que l'utilisateur dispose des droits admin
         models.User.findOne({
           attributes : ['isAdmin'],
           where : {isAdmin: userFound.isAdmin}
@@ -506,7 +449,6 @@ module.exports = {
       },
 
       function(userFound, done){
-        // Si tout va bien, on fait un appel ORM(sequelize) pour récupérer les informations de l'utilisateur en BDD
         models.User.findOne({
           attributes: ['id', 'username', 'isAdmin'],
           where: {username: Username}
@@ -534,45 +476,36 @@ module.exports = {
 
     ], function(userFound){
       if(userFound){
-          // Mise à jour effectuée
           return res.status(201).json(userFound);
       } else {
-          // Une erreur est survenue
           return res.status(500).json({'error':'Unable to modify Rights!'});
       }
     });
   },
 
   updateUserRemoveRights: function(req, res, next){
-    // Récupération de l'en-tête d'autorisation
     let headerAuth = req.headers['authorization'];
     let Username = req.body.Username;
 
-    // Vérifier que ce token est valide pour faire une requête en BDD
     let userId = jwtUtils.getUserId(headerAuth);
 
-    // Vérifier que userId n'est pas négatif (par sécurité)
     if (userId <0)
         return res.status(400).json({'error':'wrong token'});
     
     asyncLib.waterfall([
       function(done){
-        // Récupérer l'utilisateur dans la base de données
         models.User.findOne({
             where: {id: userId}
         })
         .then(function(userFound){
-          // Si l'utilisateur est rouvé, le retourner
           done(null,userFound);
         })
         .catch(function(err){
-          // Sinon envoyer une erreur
           return res.status(500).json({'error':'unable to verify user'});
         });
       },
 
       function(userFound, done){
-        // Vérifier si l'utilisateur dispose des droits admin
         models.User.findOne({
             attributes : ['isAdmin'],
             where : {isAdmin: userFound.isAdmin}
@@ -591,7 +524,6 @@ module.exports = {
       },
 
       function(userFound, done){
-        // Si tout va bien, on fait un appel ORM(sequelize) pour récupérer les informations de l'utilisateur en BDD
         models.User.findOne({
           attributes: ['id', 'username', 'isAdmin'],
           where: {username: Username}
@@ -619,10 +551,8 @@ module.exports = {
 
     ], function(userFound){
       if(userFound){
-        // Mise à jour effectuée
         return res.status(201).json(userFound);
       } else {
-        // Une erreur est survenue
         return res.status(500).json({'error':'Unable to modify Rights!'});
       }
     });
