@@ -1,7 +1,33 @@
-  
 'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  var Like = sequelize.define('Like', {
+  class Like extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      // Relation entre les clés étrangères et la table de référence
+      // Le model actuel.typeDeRelation(models.référence)
+      models.Like.belongsTo(models.User,{
+        foreignKey:'userId',
+        // utilisation d'un Alias
+        as: 'user',
+      });
+      
+      // Relation entre les clés étrangères et la table de référence
+      models.Like.belongsTo(models.Message,{
+        foreignKey:'messageId',
+        // utilisation d'un Alias
+        as: 'message',
+      });
+    };
+  };
+  Like.init({
     messageId: {
       type: DataTypes.INTEGER,
       references: {
@@ -9,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
+
     userId: {
       type: DataTypes.INTEGER,
       references: {
@@ -17,32 +44,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     isLike: DataTypes.INTEGER
-  }, {});
-  Like.associate = function(models) {
-    // associations can be defined here
-
-    models.User.belongsToMany(models.Message, {
-      through: models.Like,
-      foreignKey: 'userId',
-      otherKey: 'messageId',
-    });
-
-    
-    models.Message.belongsToMany(models.User, {
-      through: models.Like,
-      foreignKey: 'messageId',
-      otherKey: 'userId',
-    });
-
-    models.Like.belongsTo(models.User, {
-      foreignKey: 'userId',
-      as: 'user',
-    });
-
-    models.Like.belongsTo(models.Message, {
-      foreignKey: 'messageId',
-      as: 'message',
-    });
-  };
+  }, {
+    sequelize,
+    modelName: 'Like',
+  });
   return Like;
 };

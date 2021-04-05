@@ -1,206 +1,229 @@
+// Activation du mode STRICT de Javascript
+"use strict";
+
 // Imports
-var models   = require('../models');
-var jwtUtils = require('../utils/jwt.utils');
-var asyncLib = require('async');
+let models = require('../models')
+let jwtUtils = require('../utils/jwt.utils');
+let asyncLib = require('async');
 
 // Constants
-const DISLIKED = 0;
-const LIKED    = 1;
 
 // Routes
+
 module.exports = {
-  likePost: function(req, res) {
-    // Getting auth header
-    var headerAuth  = req.headers['authorization'];
-    var userId      = jwtUtils.getUserId(headerAuth);
+    likePost: function(req, res, next){
+        // Récupération de l'en-tête d'autorisation
+        let headerAuth = req.headers['authorization'];
 
-    // Params
-    var messageId = parseInt(req.params.messageId);
+        // Vérifier que ce token est valide pour faire une requête en BDD
+        let userId = jwtUtils.getUserId(headerAuth);
 
-    if (messageId <= 0) {
-      return res.status(400).json({ 'error': 'invalid parameters' });
-    }
+        //Params
+        let messageId = parseInt(req.params.messageId);
 
-    asyncLib.waterfall([
-      function(done) {
-        models.Message.findOne({
-          where: { id: messageId }
-        })
-        .then(function(messageFound) {
-          done(null, messageFound);
-        })
-        .catch(function(err) {
-          return res.status(500).json({ 'error': 'unable to verify message' });
-        });
-      },
-      function(messageFound, done) {
-        if(messageFound) {
-          models.User.findOne({
-            where: { id: userId }
-          })
-          .then(function(userFound) {
-            done(null, messageFound, userFound);
-          })
-          .catch(function(err) {
-            return res.status(500).json({ 'error': 'unable to verify user' });
-          });
-        } else {
-          res.status(404).json({ 'error': 'post already liked' });
+        // Vérifier si l'ID du message est valide
+        if(messageId <= 0){
+            return res.status(400).json({'error':'invalid parameters'});
         }
-      },
-      function(messageFound, userFound, done) {
-        if(userFound) {
-          models.Like.findOne({
-            where: {
-              userId: userId,
-              messageId: messageId
+
+        asyncLib.waterfall([
+            function(done){
+                // Vérifier dans la BDD si le message existe (id du msg)
+                models.Message.findOne({
+                    where: {id:messageId}
+                })
+                .then(function(messageFound){
+                    // Si oui, continuer
+                    done(null, messageFound);
+                })
+                .catch(function(err){
+                    // Sinon retourner une erreur
+                    return res.status(500).json({'error':'unable to verify message'});
+                });
+            },
+            function(messageFound, done){
+                if(messageFound){
+                    // Récupérer l'objet utilisateur
+                    models.User.findOne({
+                        where: {id: userId}
+                    })
+                    .then(function(userFound){
+                        done(null, messageFound, userFound);
+                    })
+                    .catch(function(err){
+                        return res.status(500).json({'error':'unable to verify user'});
+                    });
+                } else {
+                    res.status(404).json({'error':'post already liked'});
+                }
+            },
+            function(messageFound, userFound, done){
+                if(userFound){
+                    // Rechercher si l'on trouve une entrée qui correspond à la fois à l'ID de l'utilisateur qui fait la requête
+                    // Ainsi qu'au message concerné
+                    models.Like.findOne({
+                        where: {
+                            userId: userId,
+                            messageId: messageId
+                        }
+                    })
+                    .then(function(isUserAlreadyLiked){
+                        done(null,messageFound, userFound, isUserAlreadyLiked);
+                    })
+                    .catch(function(err){
+                        return res.status(500).json({'error':'unable to verify is user already liked'});
+                    });
+
+                } else {
+                    res.status(404).json({'error':'user not exist'});
+                }
+            },
+            function(messageFound, userFound, isUserAlreadyLiked, done) {
+                console.log("Inf:" + isUserAlreadyLiked);
+                    // S'assurer que l'utilisateur n'as pas déjà Like le message
+                    if(!isUserAlreadyLiked){
+                        // Ajouter la relation qui uni le message et l'utilisateur
+                        models.Like.create({
+                            messageId : messageId,
+                            userId : userId,
+                            isLike : 1
+                        })
+                        .then(function(alreadyLikeFound) {
+                            done(null,messageFound, userFound);
+                        })
+                        .catch(function(err){
+                            return res.status(500).json({'error':'unable to set user reaction'});
+                        });
+                    } else {
+                        // Retourner un message de conflit (409)
+                        res.status(409).json({'error':'message already liked'});
+                    }
+            },
+            function (messageFound, userFound, done) {
+                // Mise à jour de l'objet (le message), incrémente les likes de 1
+                messageFound.update({
+                    likes: messageFound.likes + 1,
+                })
+                .then(function(){
+                    done(messageFound);
+                })
+                .catch(function(err) {
+                    console.log(err);
+                    res.status(500).json({'error':'cannot message like counter' + err});
+                });
             }
-          })
-          .then(function(userAlreadyLikedFound) {
-            done(null, messageFound, userFound, userAlreadyLikedFound);
-          })
-          .catch(function(err) {
-            return res.status(500).json({ 'error': 'unable to verify is user already liked' });
-          });
-        } else {
-          res.status(404).json({ 'error': 'user not exist' });
-        }
-      },
-      function(messageFound, userFound, userAlreadyLikedFound, done) {
-        if(!userAlreadyLikedFound) {
-          messageFound.addUser(userFound, { isLike: LIKED })
-          .then(function (alreadyLikeFound) {
-            done(null, messageFound, userFound);
-          })
-          .catch(function(err) {
-            return res.status(500).json({ 'error': 'unable to set user reaction' });
-          });
-        } else {
-          if (userAlreadyLikedFound.isLike === DISLIKED) {
-            userAlreadyLikedFound.update({
-              isLike: LIKED,
-            }).then(function() {
-              done(null, messageFound, userFound);
-            }).catch(function(err) {
-              res.status(500).json({ 'error': 'cannot update user reaction' });
-            });
-          } else {
-            res.status(409).json({ 'error': 'message already liked' });
-          }
-        }
-      },
-      function(messageFound, userFound, done) {
-        messageFound.update({
-          likes: messageFound.likes + 1,
-        }).then(function() {
-          done(messageFound);
-        }).catch(function(err) {
-          res.status(500).json({ 'error': 'cannot update message like counter' });
+        ], function(messageFound){
+            if(messageFound){
+                // Affichage de la propriété like qui sera incrémentée
+                return res.status(201).json(messageFound);
+            } else {
+                return res.status(500).json({'error':'cannot update message'});
+            }
         });
-      },
-    ], function(messageFound) {
-      if (messageFound) {
-        return res.status(201).json(messageFound);
-      } else {
-        return res.status(500).json({ 'error': 'cannot update message' });
-      }
-    });
-  },
-  dislikePost: function(req, res) {
-   // Getting auth header
-   var headerAuth  = req.headers['authorization'];
-   var userId      = jwtUtils.getUserId(headerAuth);
+    },
 
-   // Params
-   var messageId = parseInt(req.params.messageId);
+    dislikePost: function(req, res, next){
+        // Récupération de l'en-tête d'autorisation
+        let headerAuth = req.headers['authorization'];
 
-   if (messageId <= 0) {
-     return res.status(400).json({ 'error': 'invalid parameters' });
-   }
+        // Vérifier que ce token est valide pour faire une requête en BDD
+        let userId = jwtUtils.getUserId(headerAuth);
 
-   asyncLib.waterfall([
-    function(done) {
-       models.Message.findOne({
-         where: { id: messageId }
-       })
-       .then(function(messageFound) {
-         done(null, messageFound);
-       })
-       .catch(function(err) {
-         return res.status(500).json({ 'error': 'unable to verify message' });
-       });
-     },
-     function(messageFound, done) {
-       if(messageFound) {
-         models.User.findOne({
-           where: { id: userId }
-         })
-         .then(function(userFound) {
-           done(null, messageFound, userFound);
-         })
-         .catch(function(err) {
-           return res.status(500).json({ 'error': 'unable to verify user' });
-         });
-       } else {
-         res.status(404).json({ 'error': 'post already liked' });
-       }
-     },
-     function(messageFound, userFound, done) {
-       if(userFound) {
-         models.Like.findOne({
-           where: {
-             userId: userId,
-             messageId: messageId
-           }
-         })
-         .then(function(userAlreadyLikedFound) {
-            done(null, messageFound, userFound, userAlreadyLikedFound);
-         })
-         .catch(function(err) {
-           return res.status(500).json({ 'error': 'unable to verify is user already liked' });
-         });
-       } else {
-         res.status(404).json({ 'error': 'user not exist' });
-       }
-     },
-     function(messageFound, userFound, userAlreadyLikedFound, done) {
-      if(!userAlreadyLikedFound) {
-        messageFound.addUser(userFound, { isLike: DISLIKED })
-        .then(function (alreadyLikeFound) {
-          done(null, messageFound, userFound);
-        })
-        .catch(function(err) {
-          return res.status(500).json({ 'error': 'unable to set user reaction' });
-        });
-      } else {
-        if (userAlreadyLikedFound.isLike === LIKED) {
-          userAlreadyLikedFound.update({
-            isLike: DISLIKED,
-          }).then(function() {
-            done(null, messageFound, userFound);
-          }).catch(function(err) {
-            res.status(500).json({ 'error': 'cannot update user reaction' });
-          });
-        } else {
-          res.status(409).json({ 'error': 'message already disliked' });
+        //Params
+        let messageId = parseInt(req.params.messageId);
+
+        // Vérifier que l'ID du message est valide
+        if(messageId <= 0){
+            return res.status(400).json({'error':'invalid parameters'});
         }
-      }
-     },
-     function(messageFound, userFound, done) {
-       messageFound.update({
-         likes: messageFound.likes - 1,
-       }).then(function() {
-         done(messageFound);
-       }).catch(function(err) {
-         res.status(500).json({ 'error': 'cannot update message like counter' });
-       });
-     },
-   ], function(messageFound) {
-     if (messageFound) {
-       return res.status(201).json(messageFound);
-     } else {
-       return res.status(500).json({ 'error': 'cannot update message' });
-     }
-   });
-  }
+
+        asyncLib.waterfall([
+            function(done){
+                // Vérifier dans la BDD si le message existe (id du msg)
+                models.Message.findOne({
+                    where: {id:messageId}
+                })
+                .then(function(messageFound){
+                    // Si oui, continuer
+                    done(null, messageFound);
+                })
+                .catch(function(err){
+                    // Sinon retourner une erreur
+                    return res.status(500).json({'error':'unable to verify message'});
+                });
+            },
+            function(messageFound, done){
+                if(messageFound){
+                    // Récupérer l'objet utilisateur
+                    models.User.findOne({
+                        where: {id: userId}
+                    })
+                    .then(function(userFound){
+                        done(null, messageFound, userFound);
+                    })
+                    .catch(function(err){
+                        return res.status(500).json({'error':'unable to verify user'});
+                    });
+                } else {
+                    res.status(404).json({'error':'post already disliked'});
+                }
+            },
+            function(messageFound, userFound, done){
+                if(userFound){
+                    // Rechercher si l'on trouve une entrée qui correspond à la fois à l'ID de l'utilisateur qui fait la requête
+                    // Ainsi qu'au message concerné
+                    models.Like.findOne({
+                        where: {
+                            userId: userId,
+                            messageId: messageId
+                        }
+                    })
+                    .then(function(isUserAlreadyLiked){
+                        done(null,messageFound, userFound, isUserAlreadyLiked);
+                    })
+                    .catch(function(err){
+                        return res.status(500).json({'error':'unable to verify is user already disliked'});
+                    });
+
+                } else {
+                    res.status(404).json({'error':'user not exist'});
+                }
+            },
+            function(messageFound, userFound, isUserAlreadyLiked, done) {
+                    // S'assurer que l'utilisateur a déjà Like le message
+                    if(isUserAlreadyLiked){
+                        // Supprimer la relation qui uni le message et l'utilisateur
+                        isUserAlreadyLiked.destroy()
+                        .then(function() {
+                            done(null,messageFound, userFound);
+                        })
+                        .catch(function(err){
+                            return res.status(500).json({'error':'cannot remove already disliked post'});
+                        });
+                    } else {
+                        // Retourner un message de conflit (409)
+                        res.status(409).json({'error':'message already disliked'});
+                    }
+            },
+            function (messageFound, userFound, done) {
+                // Mise à jour de l'objet (le message), décrémenter les likes de 1
+                messageFound.update({
+                    likes: messageFound.likes - 1,
+                })
+                .then(function(){
+                    done(messageFound);
+                })
+                .catch(function(err) {
+                    res.status(500).json({'error':'cannot mesage dislike counter'});
+                });
+            }
+        ], function(messageFound){
+            if(messageFound){
+                // Modification de la propriété like qui sera décrémenter
+                return res.status(201).json(messageFound);
+            } else {
+                return res.status(500).json({'error':'cannot update message'});
+            }
+        });        
+    }
 }
