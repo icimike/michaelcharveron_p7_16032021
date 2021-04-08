@@ -1,211 +1,271 @@
 <template>
-    <div>
-        <div class="modal" id="profilModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-            
-                    <div class="modal-header">
-                        <h4 class="modal-title"><i class="far fa-user"></i> Mon Profil</h4>
-                        <button @click="ResetStats" type="button" title="Fermer" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-            
-                    <div class="labelsAlign modal-body">
-                        <p> 
-                            <strong> Nom : </strong>{{userName}}<br/>
-                            <strong> E-mail : </strong>{{Email}}<br/>
-                            <strong> Biographie : </strong>{{Bio}}<br/>
-                        </p>
-
-                        <div @keyup="checkBio" class="form-group">
-                            <label for="Bio"><i class="fas fa-pen"></i> Modifier ma Biographie:</label>
-                            <textarea  class="form-control" id="Bio" placeholder="Renseignez ce champ si vous souhiatez changer votre biographie." rows="3"></textarea>
-                            <button @click="updateBio" v-if="BioEdit" type="button" title="Mettre à jour" class="btn btn-primary">Mettre à jour</button>
-
-                            <div v-if="subOkay" class="alert alert-success">
-                                <strong><i class="fas fa-check-circle"></i></strong> votre profil est à jour.
-                                <button @click="ResetStats" type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div v-show="isAdmin" class="form-group">
-                            <h5>Options Modérateur</h5>
-                            <label for="Search"><i class="fas fa-search"></i> Rechercher un utilisateur</label>
-                            <input @keyup="checkNameExist" type="text" class="form-control" id="Search" placeholder="Tapez le nom d'un utilisateur" name="Search">
-                            <button @click="addRight" v-if="findUser && !findUserAdmin" type="button" title="Accorder les drois modérateur" class="btn btn-primary" >Accorder</button>
-                            <button @click="removeRight" v-if="findUser && findUserAdmin" type="button" title="Supprimer les drois modérateur" class="btn btn-danger" >Retirer</button>
-
-                            <div v-if="RightAdded" class="alert alert-success">
-                                <strong><i class="fas fa-check-circle"></i></strong> {{RightAdd}}
-                                <button @click="ResetStats" type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-
-                            <div v-if="RightRemoved" class="alert alert-success">
-                                <strong><i class="fas fa-check-circle"></i></strong> {{RightRemove}}
-                                <button @click="ResetStats" type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div v-if="!isAdmin" class="alert alert-info">
-                            <strong><i class="fas fa-info-circle"></i></strong> vous n'êtes pas modérateur.
-                        </div>
-                        
-                    </div>
-
-                    <div class="modal-footer">
-                        <div v-if="subFailure" class="alert alert-danger">
-                            {{MSGfaillure}}
-                            <button @click="ResetStats" type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <button type="button" data-toggle="modal" data-target="#ConfirmDeleteProfil" title="Désinscription" class="btn btn-danger" data-dismiss="modal">Désinscription</button>
-                        <button @click="GoOut" type="button" title="Déconnexion" class="btn btn-primary" data-dismiss="modal">Déconnexion</button>
-                    </div>
-            
+    <div class="modal" id="profilModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+        
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="far fa-user"></i> Mon Profil</h4>
+                    <button type="button" title="Fermer" class="close" data-dismiss="modal">&times;</button>
                 </div>
-            </div>
-        </div>
-        <div class="modal" id="ConfirmDeleteProfil">
-            <div class="modal-dialog">
-                <div class="modal-content">
-            
-                    <div class="modal-header">
-                        <h4 class="modal-title"><i class="fas fa-exclamation-triangle"></i> Suppression de compte</h4>
-                        <button @click="ResetStats" type="button" title="Fermer" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-            
-                    <div class="labelsAlign modal-body">
-                        <p class="alert alert-danger"> 
-                            <strong> Avertissement : </strong> Cette opération est irréversible! <br/>
-                            Toutes les informations vous concernant vont être supprimés : <br/>
-                            Message(s), Commentaire(s), Mention(s) "J'aime", Bio, Nom, E-mail.
-                        </p>
+        
+                <div class="modal-body">
+                    <p> 
+                        <strong> Nom : </strong>{{userName}}<br/>
+                        <strong> E-mail : </strong>{{email}}<br/>
+                        <strong> Biographie : </strong>{{bio}}<br/>
+                    </p>
 
-                        <div class="form-group">
-                            <label for="Confirmation"><i class="fas fa-pen"></i> Veuillez confirmer votre demande : </label>
-                            <input @keyup="checkConfirm" type="text" class="form-control" id="Confirmation" placeholder="Tapez : J'accepte" name="Confirmation">
-                        </div>
-                        <div v-if="subFailure" class="alert alert-danger">
-                            {{MSGfaillure}}
-                            <button @click="ResetStats" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <div @keyup="checkBio" class="form-group">
+                        <label for="Bio"><i class="fas fa-pen"></i> Modifier ma Biographie:</label>
+                        <textarea  class="form-control" id="Bio" placeholder="Renseignez ce champ si vous souhiatez changer votre biographie." rows="3"></textarea>
+                        <button @click="updateBio" v-if="BioEdit" type="button" title="Mettre à jour" class="btn btn-primary">Mettre à jour</button>
+
+                        <div v-if="subOkay" class="alert alert-success">
+                            <strong><i class="fas fa-check-circle"></i></strong> votre profil est à jour.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+                        <hr/>
                     </div>
 
-                    <div class="modal-footer">
-                        <button @click="Unsubscribe" v-if="ChkConfirm" type="button" title="Confirmer" class="btn btn-danger">Confirmer</button>
-                        <button @click="ResetStats" type="button" title="Annuler" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+                    <div v-if="isAdmin" class="form-group">
+                        <h5>Options Modérateur</h5>
+                        <p>Work In Progress...</p>
+                        <label for="Search"><i class="fas fa-search"></i> Rechercher un utilisateur</label>
+                        <input @keyup="checkNameExist" type="text" class="form-control" id="Search" placeholder="Tapez le nom d'un utilisateur" name="Search">
+                        <button v-if="findUser && !findUserAdmin" type="button" title="Accorder les drois modérateur" class="btn btn-primary" >Accorder</button>
+                        <button v-if="findUser && findUserAdmin" type="button" title="Supprimer les drois modérateur" class="btn btn-primary" >Retirer</button>
+                    </div>
+
+                    <div v-if="!isAdmin" class="alert alert-info">
+                        <strong><i class="fas fa-info-circle"></i></strong> vous n'êtes pas modérateur.
                     </div>
                     
                 </div>
-            </div>
-        </div>
-        <div class="modal" id="Cleaning">
-            <div class="modal-dialog">
-                <div class="modal-content">
-            
-                    <div class="modal-header">
-                        <h4 class="modal-title"><i class="fas fa-info-circle"></i> Désinscription </h4>
-                        <button @click="ResetStats" type="button" title="Fermer" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-            
-                    <div class="labelsAlign modal-body">
-                        <p class="alert alert-success"> 
-                            <strong> Confirmation : </strong> Votre compte a bien été supprimé! <br/>
-                        </p>
-                    </div>
 
+                <div class="modal-footer">
+                    <button @click="GoOut" type="button" title="Déconnexion" class="btn btn-primary" data-dismiss="modal">Déconnexion</button>
+                    <button @click="Unsubscribe" type="button" title="Désinscription" class="btn btn-danger" data-dismiss="modal">Désinscription</button>
                 </div>
+        
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+import router from '@/router/index.js'
+export default {
+    name: 'Profil',
+    data(){
+        return {
+            // Récupération des variables globales dans vue X
+            urlAPI:this.$store.state.urlAPI,
+            userName: this.$store.state.userName,
+            Connected: this.$store.state.Connected,
+            email:this.$store.state.email,
+            bio:this.$store.state.bio,
+            Loading: this.$store.state.Loading,
+            isAdmin: this.$store.state.isAdmin,
+            BioEdit: this.$store.state.BioEdit,
+            Token: this.$store.state.Token,
 
-    export default {
-        name: 'Profil',
+            Loading: this.$store.state.Loading,
 
-        data(){
-            return {
-                // Variables locales
+            // Variables locales
+            findUser:false,
+            findUserAdmin:false,
+            findedUser:'',
 
-                // Messages
-                subOK: "Connexion réussi.",
-                RightAdd: "Droit accordé à l'utilisateur",
-                RightRemove: "Droit supprimé à l'utilisateur",
+            subOkay: false,
+            subFailure: false,
+            subCompleted: false,
+
+            // Messages
+            subOK: "Connexion réussi.",
+            subFail: "Une erreur est survenue!"
+
+        }
+    },
+    // Création de la logique du module
+    methods:{
+        checkBio(){            
+            let BioArea = document.getElementById("Bio").value;
+
+            if(BioArea != ''){
+                this.$store.commit('setBioEdit',this.BioEdit = true);
+            } else {
+                this.$store.commit('setBioEdit',this.BioEdit = false);
             }
         },
+        updateBio(){
+            let BioArea = document.getElementById("Bio").value;
+            this.$store.commit('setLoading',this.Loading = true);
+            this.$store.commit('setBioEdit',this.BioEdit = false);
 
-        computed:{
-            // Récupération de l'état des "Getters" pour actualiser la page
-            ...mapGetters([
-                // Profil
-                'Connected',
-                'userName',
-                'Email',
-                'Bio',
-                'BioEdit',
-                'isAdmin',
-                'ChkConfirm',
+            // Configuration de l'en-tete AXIOS (intégration du token)
+            axios.interceptors.request.use(
+                config => {
+                    config.headers.authorization = `Bearer ${this.Token}`;
+                    return config;
+                },
+                error => {
+                    return Promise.reject(error);
+                }
+            );
 
-                //Administration
-                'findUser',
-                'findUserAdmin',
-                'findedUser',
-                'RightAdded',
-                'RightRemoved',
+            // Initialisation de la promesse vers l'API via AXIOS
+            axios.put(this.urlAPI+'/api/users/me/',{
+                bio: BioArea,
+                })
+            .then(res =>{
+                // Envoie des données en base
+                console.log(res);
+                this.bio = BioArea;
 
-                // Status
-                'Loading',
-                'subOkay',
-                'subCompleted',
+                //SubOkay
+                this.$store.commit('setBio', BioArea);
+                this.subOkay = true;
+                this.subCompleted = true;
+                this.$store.commit('setLoading',this.Loading = false);
+                console.log(this.$store.state.Loading);
 
-                'subFailure',
-                'MSGfaillure'
-                
+                // Completed
+                document.getElementById('Bio').value = '';
+                this.subCompleted = true;
+                this.$store.commit('setLoading',this.Loading = false);
+            })
+            .catch(err =>{
+                //WIP
+                console.log(err);
+                this.subFailure = true;
+                // this.subFail = err.error;
+                this.Loading = false;
+                this.$store.commit('setLoading',this.Loading = false);
+                console.log(this.Loading);
+            });
 
-            ]),
         },
+        checkNameExist(){
+            //WIP
+            let searchName = document.getElementById("Search").value;
 
-        // Création de la logique du module
-        methods:{
-            checkBio(){     
-                this.$store.dispatch("checkBio");
-            },
-            updateBio(){
-                this.$store.dispatch("BioUpdate");
-            },
-            checkNameExist(){
-                this.$store.dispatch("CheckNameExist");
-            },
-            addRight(){
-                this.$store.dispatch("addRight");
-            },
-            removeRight(){
-                this.$store.dispatch("removeRight");
-            },
-            checkConfirm(){
-                this.$store.dispatch("CheckConfirm");
-            },
-            Unsubscribe(){
-                this.$store.dispatch("Unsubscribe");
-            },
-            ResetStats(){
-                this.$store.dispatch("ResetProfilStats");
-            },
-            GoOut(){
-                this.$store.dispatch("GoOut");
-            },
+            if(searchName !='' && searchName == this.userName){
+                // Code faire une recherche dans la BDD
+                console.log('finded!');
+                this.findUser = true;
+                this.findUserAdmin = this.$store.state.isAdmin;
+
+            } else {
+                // Ne rien faire
+                this.findUser = false;
+                this.findUserAdmin = false;
+                console.log('Not Found!');
+            }
+
         },
+        addRight(){
+            //WIP
+        },
+        removeRight(){
+            //WIP
+        },
+        GoOut(){
+            // Réinitialisation des paramètres Vue X...
+            // Supression des informations de session utilisateur...
+            this.subOkay = false;
+            this.subCompleted = false;
+            this.$store.commit('setConnected', false);
+            localStorage.removeItem('Connected');
+            console.log("Connected : "+ this.$store.state.Connected);
+            this.$store.commit('setEmail', '');
+            localStorage.removeItem('Email');
+            console.log(this.$store.state.email);
+            this.$store.commit('setUserName', '');
+            localStorage.removeItem('userName');
+            console.log(this.$store.state.userName);
+            this.$store.commit('setUserID', 0);
+            localStorage.removeItem('userId');
+            console.log(this.$store.state.userId);
+            this.$store.commit('setToken', '');
+            localStorage.removeItem('Token');
+            console.log(this.$store.state.Token);
+            this.$store.commit('setIsAdmin', false);
+            localStorage.removeItem('isAdmin');
+            console.log(this.$store.state.isAdmin);
+            this.$store.commit('setLoading',this.Loading = false);
+            console.log(this.Loading);
+            // Redirrection vers la page d'accueil...
+            router.push({path:'/'});
+        },
+        Unsubscribe(){
+            // Authentification de l'utilisateur...
+
+            // Configuration de l'en-tete AXIOS (intégration du token)
+            axios.interceptors.request.use(
+                config => {
+                    config.headers.authorization = `Bearer ${this.Token}`;
+                    return config;
+                },
+                error => {
+                    return Promise.reject(error);
+                }
+            );
+            // Suppression du compte utilisateur...
+            axios.delete(this.urlAPI+"/api/users/unsubscribe/")
+            .then(res =>{
+                localStorage.clear();
+                this.subOkay = false;
+                this.subCompleted = false;
+                this.$store.commit('setConnected', false);
+                localStorage.removeItem('Connected');
+                console.log("Connected : "+ this.$store.state.Connected);
+                this.$store.commit('setEmail', '');
+                localStorage.removeItem('Email');
+                console.log(this.$store.state.email);
+                this.$store.commit('setUserName', '');
+                localStorage.removeItem('userName');
+                console.log(this.$store.state.userName);
+                this.$store.commit('setUserID', 0);
+                localStorage.removeItem('userId');
+                console.log(this.$store.state.userId);
+                this.$store.commit('setToken', '');
+                localStorage.removeItem('Token');
+                console.log(this.$store.state.Token);
+                this.$store.commit('setIsAdmin', false);
+                localStorage.removeItem('isAdmin');
+                console.log(this.$store.state.isAdmin);
+                this.$store.commit('setLoading',this.Loading = false);
+                console.log(this.Loading);
+                // Redirrection vers la page d'accueil...
+                router.push({path:'/'});
+            })
+            .catch(err =>{
+                console.log(err);
+            });
+        }
+    },
+    mounted(){
+        // Configuration de l'en-tete AXIOS (intégration du token)
+        axios.interceptors.request.use(
+            config => {
+                config.headers.authorization = `Bearer ${this.Token}`;
+                return config;
+            },
+            error => {
+                return Promise.reject(error);
+            }
+        );
+
+        axios.get(this.urlAPI+"/api/users/me")
+        .then(res =>{
+            console.log(res);
+            this.bio = res.data.bio;
+        })
+        .catch(err =>{
+            console.log(err);
+        });
     }
+}
 </script>
