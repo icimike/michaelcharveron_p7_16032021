@@ -1,7 +1,4 @@
 <template>
-  <!-- <div id="nav">
-    <router-link to="/">Home</router-link>
-  </div> -->
   <router-view/>
 </template>
 
@@ -24,7 +21,8 @@
     --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-.btn-danger {
+
+  .btn-danger {
     color: #fff;
     background-color: #d2515b;
     border-color: #dc3545;
@@ -57,6 +55,7 @@
   .show > .btn-danger.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
   }
+
   .btn-primary {
     color: #fff;
     background-color: #0e2042;
@@ -90,6 +89,7 @@
   .show > .btn-primary.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
   }
+
   .btn-success {
     color: #fff;
     background-color: #28a745;
@@ -123,6 +123,7 @@
   .show > .btn-success.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
   }
+
   .bg-info {
     background-color: #2c3653 !important;
   }
@@ -132,6 +133,7 @@
   button.bg-info:focus {
     background-color: #117a8b !important;
   }
+
   .text-primary {
     color: #0e2042 !important;
   }
@@ -139,7 +141,11 @@
   a.text-primary:hover, a.text-primary:focus {
     color: #0062cc !important;
   }
+
+
+
 /* CUSTOM BOOTSTRAP END */
+
 header
 {
     position: -webkit-sticky;
@@ -148,6 +154,7 @@ header
     top: 0em;
     text-align: center;
 }
+
 nav
 {
     position: -webkit-sticky;
@@ -155,6 +162,7 @@ nav
     position: sticky;
     top: -0.5em;
 }
+
 footer
 {
     position: -webkit-sticky;
@@ -163,14 +171,17 @@ footer
     top: -1em;
     text-align: center;
 }
+
 .Menu ul
 {
     list-style-type: none;
 }
+
 .Menu a
 {
     text-decoration: none;
 }
+
 #Mur
 {
     background-image: url("assets/icon-left-font.png");
@@ -179,6 +190,7 @@ footer
     background-size: contain;
     border : 1px solid black;
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -186,13 +198,16 @@ footer
   text-align: center;
   color: #2c3e50;
 }
+
 #nav {
   padding: 30px;
 }
+
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
+
 #nav a.router-link-exact-active {
   color: #42b983;
 }
