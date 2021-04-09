@@ -4,7 +4,7 @@ const express = require('express');
 const usersCtrl = require('./routes/usersCtrl');
 const messagesCtrl = require('./routes/messagesCtrl');
 const likesCtrl = require('./routes//likesCtrl');
-// const commentCtrl = require('../controllers/commentCtrl');
+const commentCtrl = require('./routes/commentsCtrl');
 const multer = require('./middleware/multer-config');
 
 //Création du routeur et Instanciation de celui-ci ()
@@ -27,14 +27,14 @@ exports.router = (function(){
   apiRouter.delete('/messages/new/preview/', multer, messagesCtrl.DeletePreview);
   
   // Comments routes
-  // apiRouter.get('/messages/comment/', commentCtrl.listComment);
-  // apiRouter.post('/messages/comment/:messageId/new/', commentCtrl.createComment);
-  // apiRouter.delete('/messages/comment/:messageId/:commentId/', commentCtrl.deleteMyComment);
+  apiRouter.get('/messages/comment/', commentCtrl.listComment);
+  apiRouter.post('/messages/comment/:messageId/new/', commentCtrl.createComment);
+  apiRouter.delete('/messages/comment/:messageId/:commentId/', commentCtrl.deleteMyComment);
 
   // Moderation routes
   apiRouter.put('/messages/:messageId/moderate/', multer, messagesCtrl.moderateMessage);
   apiRouter.delete('/messages/:messageId/moderate/', multer, messagesCtrl.deleteMessage);
-  // apiRouter.delete('/messages/comment/:messageId/:commentId/moderate/', multer, commentCtrl.deleteComment);
+  apiRouter.delete('/messages/comment/:messageId/:commentId/moderate/', multer, commentCtrl.deleteComment);
 
   // Likes routes
   apiRouter.post('/messages/:messageId/vote/like', likesCtrl.likePost);
