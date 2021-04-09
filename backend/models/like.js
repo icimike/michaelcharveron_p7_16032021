@@ -11,39 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Relation entre les clés étrangères et la table de référence
-      // Le model actuel.typeDeRelation(models.référence)
-      models.Like.belongsTo(models.User,{
-        foreignKey:'userId',
-        // utilisation d'un Alias
-        as: 'user',
-      });
-      
-      // Relation entre les clés étrangères et la table de référence
-      models.Like.belongsTo(models.Message,{
-        foreignKey:'messageId',
-        // utilisation d'un Alias
-        as: 'message',
-      });
-    };
+    }
   };
   Like.init({
-    messageId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Message',
-        key: 'id'
-      }
-    },
-
-    userId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'User',
-        key: 'id'
-      }
-    },
-    isLike: DataTypes.INTEGER
+    messageId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Like',
