@@ -2,7 +2,7 @@
     <header class="bg-light text-center">
         <img class="col-md-6 container" src="../assets/Banner.png">
         <!-- Navigation -->
-        <nav id="NavBar" class="navbar navbar-light justify-content-end"> 				<!-- Menu de navigation -->
+        <nav id="NavBar" class="navbar navbar-light justify-content-center"> 				<!-- Menu de navigation -->
             <ul class="nav">
                 <li @click="Load" v-if="!Connected" class="nav-item"><a class="nav-link" href="#" title="Inscription au site" data-toggle="modal" data-target="#registrationModal"> <i class="far fa-address-card"></i> Inscription </a></li>
                 <li @click="Load" v-if="!Connected" class="nav-item"><a class="nav-link" href="#" title="Connexion au site" data-toggle="modal" data-target="#logginModal"> <i class="fas fa-key"></i> Connexion </a></li>
