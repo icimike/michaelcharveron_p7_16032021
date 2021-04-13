@@ -1,7 +1,4 @@
 <template>
-  <!-- <div id="nav">
-    <router-link to="/">Home</router-link>
-  </div> -->
   <router-view/>
 </template>
 
@@ -25,7 +22,7 @@
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-.btn-danger {
+  .btn-danger {
     color: #fff;
     background-color: #d2515b;
     border-color: #dc3545;
@@ -128,7 +125,7 @@
   }
 
   .bg-info {
-    background-color: #4f5b7e !important;
+    background-color: #2c3653 !important;
   }
   
   a.bg-info:hover, a.bg-info:focus,

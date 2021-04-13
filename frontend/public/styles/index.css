@@ -122,7 +122,7 @@
   }
 
   .bg-info {
-    background-color: #4f5b7e !important;
+    background-color: #2c3653 !important;
   }
   
   a.bg-info:hover, a.bg-info:focus,
@@ -138,8 +138,6 @@
   a.text-primary:hover, a.text-primary:focus {
     color: #0062cc !important;
   }
-
-
 
 /* CUSTOM BOOTSTRAP END */
 
