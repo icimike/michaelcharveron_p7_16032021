@@ -104,7 +104,7 @@ h5, .Comment, .Content
 
 .Mbody
 {
-  box-shadow:0 0 16px #d2515b;
+  box-shadow:0 0 5px #5659ee;
 }
 
 img

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-for="Post in Posts" :key="Post.id" :id="Post.id" class="Space row justify-content-center">
-            <div  class="Mbody col-10 col-sm-10 col-md-11 bg-info text-white media border p-4 m-0">
+            <div  class="Mbody col-10 col-sm-8 col-md-8 bg-info text-black media border p-4 m-0">
                 <div class="media-body">
                     <h4 class="UserBackground">{{Post.User.username}} <br/><span class="inf"><span><i>(Créer le {{FormatDateTime(Post.createdAt)}})</i></span></span></h4>
                     <h5 class="TitleBackground"><i>{{Post.title}}</i></h5>
@@ -19,7 +19,7 @@
                     <div v-if="Connected" class="row justify-content-start">
                         <div v-if="Connected" class="labelsAlign col-10 form-group">
                             <label for="comment">Commentaire</label>
-                            <input :id="'CP'+Post.id" @keyup="CommentVerify(Post.id)" type="text" class="form-control" placeholder="Commentez!" name="comment" maxlength="255"/>
+                            <input :id="'CP'+Post.id" @keyup="CommentVerify(Post.id)" type="text" class="form-control" placeholder="Commentez !" name="comment" maxlength="255"/>
                         </div>
                         <div v-if="Connected" class="col-2 align-items-center">
                             <button v-if="ValueComment" :id="'CPS'+Post.id" @click="Submit(Post)" type="button" title="Envoyer" class="btn btn-primary text-center"><i class="far fa-paper-plane"></i></button>
@@ -126,22 +126,22 @@
         margin-bottom:1em;
     }
 
-    .UserBackground
+    /* .UserBackground
     {
         background-image:url(../assets/PostDesign/Background-PostUser.png);
         background-position:right bottom;
         background-repeat:no-repeat;
         opacity: 0.8;
-    }
+    } */
 
-    .TitleBackground
+    /* .TitleBackground
     {
         background:-webkit-linear-gradient(to right, #d2515b 30%, #2f3855);
         background:-moz-linear-gradient(to right, #d2515b 30%, #2f3855);
         background:-o-linear-gradient(to right, #d2515b 30%, #2f3855);
         background:linear-gradient(to right, #d2515b 30%, #2f3855);
         opacity: 0.8;
-    }
+    } */
 
     /* Ajustement du Design Mobile 320px à 574px */
     @media screen and (min-width:360px) and (max-width:574px) and (orientation: portrait)       /* 20em - Mobiles           */

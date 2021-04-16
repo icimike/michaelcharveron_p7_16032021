@@ -13,12 +13,12 @@
 
                         <div class="form-group">
                             <label for="Lemail">Email <span class ="text-danger"> * </span>:</label>
-                            <input @keyup="LogInVerify" type="email" class="form-control" id="Lemail" placeholder="Entrez une adresse e-mail" name="email">
+                            <input @keyup="LogInVerify" type="email" class="form-control" id="Lemail" placeholder="Entrez votre adresse e-mail" name="email">
                         </div>
 
                         <div class="form-group">
                             <label for="Lpwd">Mot de Passe <span class ="text-danger"> * </span>:</label>
-                            <input @keyup="LogInVerify" type="password" class="form-control" id="Lpwd" placeholder="Entrez un mot de passe" name="pswd">
+                            <input @keyup="LogInVerify" type="password" class="form-control" id="Lpwd" placeholder="Entrez votre mot de passe" name="pswd">
                             <p class ="text-danger"><small><i>* : Champs obligatoires</i></small></p>
                         </div>
 

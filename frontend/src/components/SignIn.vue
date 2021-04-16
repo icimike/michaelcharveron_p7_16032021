@@ -15,13 +15,13 @@
                         <form class="labelsAlign" action="/action_page.php">
                             <div class="form-group">
                                 <label for="Semail">Email <span class ="text-danger"> * </span>:</label>
-                                <input @keyup="SignInVerify" type="email" class="form-control" id="Semail" placeholder="Tom@centuryFlop.com" name="email"><br/>
+                                <input @keyup="SignInVerify" type="email" class="form-control" id="Semail" placeholder="ex: taylor.swift@music.com" name="email"><br/>
                                 <span class="alert alert-info" v-if="!CHKeMail"><strong><i class="fas fa-info-circle"></i></strong> {{email}}</span>
                             </div>
 
                             <div class="form-group">
                                 <label for="Sname">Pseudonyme (entre 5 et 15 caractères) <span class ="text-danger"> * </span>:</label>
-                                <input @keyup="SignInVerify" type="text" class="form-control" id="Sname" placeholder="Ex. Lewis" name="name" maxlength="15"><br/>
+                                <input @keyup="SignInVerify" type="text" class="form-control" id="Sname" placeholder="ex : Taylor" name="name" maxlength="15"><br/>
                                 <span class="alert alert-info" v-if="!CHKuserName"><strong><i class="fas fa-info-circle"></i></strong> {{username}}</span>
                             </div>
 
@@ -39,7 +39,7 @@
                             
                             <div class="form-group">
                                 <label for="Sbio">Ma biographie:</label>
-                                <textarea class="form-control" id="SBio" placeholder="Racontez-nous! Qui êtes vous?" rows="3"></textarea>
+                                <textarea class="form-control" id="SBio" placeholder="Votre bio ici" rows="3"></textarea>
                                 <p class ="text-danger"><small><i>* : Champs obligatoires</i></small></p>
                             </div>
 

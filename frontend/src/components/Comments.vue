@@ -96,14 +96,14 @@
 
 <style scoped>
     /* Design CSS du Commentaire */
-    .CommentBackground
+    /* .CommentBackground
     {
         background:-webkit-linear-gradient(to right, #424241 60%,#2f3855);
         background:-moz-linear-gradient(to right, #424241 60%,#2f3855);
         background:-o-linear-gradient(to right, #424241 60%,#2f3855);
         background:linear-gradient(to right, #424241 60%,#2f3855);
         opacity: 0.8;
-    }
+    } */
 
     /* Ajustement du Design Mobile 320px à 574px */
     @media screen and (min-width:360px) and (max-width:574px) and (orientation: portrait)       /* 20em - Mobiles           */
