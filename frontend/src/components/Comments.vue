@@ -98,10 +98,10 @@
     /* Design CSS du Commentaire */
     /* .CommentBackground
     {
-        background:-webkit-linear-gradient(to right, #424241 60%,#2f3855);
-        background:-moz-linear-gradient(to right, #424241 60%,#2f3855);
-        background:-o-linear-gradient(to right, #424241 60%,#2f3855);
-        background:linear-gradient(to right, #424241 60%,#2f3855);
+        background:-webkit-linear-gradient(to right, #cddbf0 60%,#eb85f5);
+        background:-moz-linear-gradient(to right, #cddbf0 60%,#eb85f5);
+        background:-o-linear-gradient(to right, #cddbf0 60%,#eb85f5);
+        background:linear-gradient(to right, #cddbf0 60%,#eb85f5);
         opacity: 0.8;
     } */
 

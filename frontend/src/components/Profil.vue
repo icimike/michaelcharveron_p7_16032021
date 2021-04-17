@@ -18,7 +18,7 @@
 
                         <div @keyup="checkBio" class="form-group">
                             <label for="Bio"><i class="fas fa-pen"></i> Modifier ma Biographie:</label>
-                            <textarea  class="form-control" id="Bio" placeholder="Renseignez ce champ si vous souhiatez changer votre biographie." rows="3"></textarea>
+                            <textarea  class="form-control" id="Bio" placeholder="Mettre à jour ma biographie" rows="3"></textarea>
                             <button @click="updateBio" v-if="BioEdit" type="button" title="Mettre à jour" class="btn btn-primary">Mettre à jour</button>
 
                             <div v-if="subOkay" class="alert alert-success">

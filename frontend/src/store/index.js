@@ -4,7 +4,7 @@ export default createStore({
     state: {
         // Paramètres généraux
         urlAPI: 'http://localhost:3000',
-        footer: 'Groupomania 2021 - Tout drois résérvés',
+        footer: 'Groupomania',
 
         // Déclaration des données du "store" de vue X
         SignIn: {

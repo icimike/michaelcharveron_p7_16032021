@@ -93,6 +93,7 @@ h5, .Comment, .Content
 
 .inf
 {
+  color: rgb(161, 161, 161);
   text-align: right;
   font-size: 13px;
 }

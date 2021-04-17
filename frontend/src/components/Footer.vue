@@ -1,6 +1,6 @@
 <template>
     <footer class="bg-light text-center">
-        <p class="col-sm-12">&copy; {{Footer}} </p>
+        <p class="col-sm-12"> {{Footer}} </p>
     </footer>
 </template>
 
