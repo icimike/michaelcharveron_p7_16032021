@@ -98,6 +98,7 @@
     /* Design CSS du Commentaire */
     /* .CommentBackground
     {
+        font-weight: bold;
         background:-webkit-linear-gradient(to right, #cddbf0 60%,#eb85f5);
         background:-moz-linear-gradient(to right, #cddbf0 60%,#eb85f5);
         background:-o-linear-gradient(to right, #cddbf0 60%,#eb85f5);

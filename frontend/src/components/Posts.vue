@@ -125,8 +125,8 @@
         margin-top:1em;
         margin-bottom:1em;
     }
-
-    /* .UserBackground
+/* 
+    .UserBackground
     {
         background-image:url(../assets/PostDesign/Background-PostUser.png);
         background-position:right bottom;

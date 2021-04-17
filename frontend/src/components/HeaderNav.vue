@@ -1,6 +1,6 @@
 <template>
     <header class="bg-light text-center">
-        <img class="col-md-6 container" src="../assets/Banner.png">
+        <img class="col-md-4 container" src="../assets/Banner.png">
         <!-- Navigation -->
         <nav id="NavBar" class="navbar navbar-light justify-content-center"> 				<!-- Menu de navigation -->
             <ul class="nav">
