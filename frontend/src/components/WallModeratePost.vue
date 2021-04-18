@@ -4,7 +4,7 @@
             <div class="modal-content">
         
                 <div class="modal-header">
-                    <h4 class="modal-title"><i class="fas fa-exclamation-circle"></i> Modération de contenue</h4>
+                    <h4 class="modal-title"><i class="fas fa-exclamation-circle"></i> Modération de contenu</h4>
                     <button @click="ResetStats" type="button" title="Fermer" class="close" data-dismiss="modal">&times;</button>
                 </div>
         
@@ -19,7 +19,7 @@
                         <button @click="RemoveAttachment" type="button" title="Supprimer" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                     </div>
                     <div class="labelsAlign form-group">
-                        <label for="ContentMod">Contenue : (Minimum 5 Caractères)</label>
+                        <label for="ContentMod">Contenu : (Minimum 5 Caractères)</label>
                         <textarea class="form-control" id="ContentMod" placeholder="Champ de modération" name="ContentMod" rows="3" v-model="ModerateContent" maxlength="255"></textarea>
                     </div>
                     <div v-if="subOkay && subCompleted" class="alert alert-info">

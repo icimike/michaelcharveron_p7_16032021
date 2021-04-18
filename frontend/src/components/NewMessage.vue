@@ -23,8 +23,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Content"> Contenue du message (Minimum 5 Caractères) <span class ="text-danger"> * </span> :</label>
-                        <textarea class="form-control" id="Content" placeholder="Contenue de votre message" rows="3" v-model="Ncontent" maxlength="255"></textarea>
+                        <label for="Content"> Contenu du message (Minimum 5 Caractères) <span class ="text-danger"> * </span> :</label>
+                        <textarea class="form-control" id="Content" placeholder="Contenu de votre message" rows="3" v-model="Ncontent" maxlength="255"></textarea>
                     </div>
 
                     <p class ="text-danger"><small><i>* : Champs obligatoires</i></small></p>

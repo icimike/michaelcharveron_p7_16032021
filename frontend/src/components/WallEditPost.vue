@@ -4,7 +4,7 @@
             <div class="modal-content">
         
                 <div class="modal-header">
-                    <h4 class="modal-title"><i class="fas fa-pen"></i> Edition de contenue</h4>
+                    <h4 class="modal-title"><i class="fas fa-pen"></i> Edition de contenu</h4>
                     <button @click="ResetStats" type="button" title="Fermer" class="close" data-dismiss="modal">&times;</button>
                 </div>
         
@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="labelsAlign form-group">
-                        <label for="ContentEdit">Contenue (Minimum 5 Caractères) :</label>
+                        <label for="ContentEdit">Contenu (Minimum 5 Caractères) :</label>
                         <textarea class="form-control" id="ContentEdit" placeholder="Champ d'édition" name="ContentEdit" rows="3" v-model="EditContent" maxlength="255"></textarea>
                     </div>
                     <div v-if="subOkay && subCompleted" class="alert alert-info">
