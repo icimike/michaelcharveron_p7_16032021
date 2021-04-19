@@ -766,7 +766,7 @@ export default createStore({
             })
             .catch(err => {
                 commit('setsubFailure', true);
-                commit('setMSGfaillure',"Erreur lors de la désinscription!");
+                commit('setMSGfaillure',"Erreur lors de la désinscription, merci de contacter votre administrateur");
                 console.log(err);
             });
         },
