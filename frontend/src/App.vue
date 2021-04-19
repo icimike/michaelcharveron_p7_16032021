@@ -23,14 +23,15 @@
 }
 
   .btn-danger {
-    color: #fff;
-    background-color: #d2515b;
+    color: #dc3545;
+    background-color: #ffffff;
+    /* background-color: #d2515b; */
     border-color: #dc3545;
   }
   
   .btn-danger:hover {
     color: #fff;
-    background-color: #d0989c;
+    background-color: #bd2736;
     border-color: #bd2130;
   }
   
@@ -57,8 +58,9 @@
   }
 
   .btn-primary {
-    color: #fff;
-    background-color: #0e2042;
+    color: #0062cc;
+    background-color: #ffffff;
+    /* background-color: #0e2042; */
     border-color: #0062cc;
   }
   

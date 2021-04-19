@@ -16,7 +16,7 @@
                     <div v-if="EditAttachment !='' && !EDeleteFile" class="form-group">
                         <label for="Picture"> Image </label>
                         <img class="col-4 justify-content-center rounded img-fluid d-flex" name="Picture" :src="EditAttachment"/>
-                        <button @click="RemoveAttachment" type="button" title="Supprimer" class="btn btn-danger"><i class="far fa-trash-alt"></i></button><br/>
+                        <button @click="RemoveAttachment" type="button" title="Supprimer" class="btn btn-ouline-danger"><i class="far fa-trash-alt"></i></button><br/>
                     </div>
 
                     <div v-show="EditAttachment ==''">

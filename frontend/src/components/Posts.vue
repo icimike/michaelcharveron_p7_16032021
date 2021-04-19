@@ -18,7 +18,7 @@
                     <hr v-if="Connected"/>
                     <div v-if="Connected" class="row justify-content-start">
                         <div v-if="Connected" class="labelsAlign col-10 form-group">
-                            <label for="comment">Commentaire</label>
+                            <label for="comment"><i class="far fa-comments"></i></label>
                             <input :id="'CP'+Post.id" @keyup="CommentVerify(Post.id)" type="text" class="form-control" placeholder="Commentez !" name="comment" maxlength="255"/>
                         </div>
                         <div v-if="Connected" class="col-2 align-items-center">
