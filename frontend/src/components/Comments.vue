@@ -95,17 +95,6 @@
 </script>
 
 <style scoped>
-    /* Design CSS du Commentaire */
-    /* .CommentBackground
-    {
-        font-weight: bold;
-        background:-webkit-linear-gradient(to right, #cddbf0 60%,#eb85f5);
-        background:-moz-linear-gradient(to right, #cddbf0 60%,#eb85f5);
-        background:-o-linear-gradient(to right, #cddbf0 60%,#eb85f5);
-        background:linear-gradient(to right, #cddbf0 60%,#eb85f5);
-        opacity: 0.8;
-    } */
-
     /* Ajustement du Design Mobile 320px à 574px */
     @media screen and (min-width:360px) and (max-width:574px) and (orientation: portrait)       /* 20em - Mobiles           */
     {

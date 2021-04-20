@@ -91,10 +91,8 @@
                 'Loading',
                 'subOkay',
                 'subCompleted',
-
                 'subFailure',
-                'MSGfaillure'
-                
+                'MSGfaillure'     
             ]),
         },
 

@@ -120,28 +120,10 @@
 
 <style scoped>
     /* Design du Post */
-
     .Space{
         margin-top:1em;
         margin-bottom:1em;
     }
-/* 
-    .UserBackground
-    {
-        background-image:url(../assets/PostDesign/Background-PostUser.png);
-        background-position:right bottom;
-        background-repeat:no-repeat;
-        opacity: 0.8;
-    } */
-
-    /* .TitleBackground
-    {
-        background:-webkit-linear-gradient(to right, #d2515b 30%, #2f3855);
-        background:-moz-linear-gradient(to right, #d2515b 30%, #2f3855);
-        background:-o-linear-gradient(to right, #d2515b 30%, #2f3855);
-        background:linear-gradient(to right, #d2515b 30%, #2f3855);
-        opacity: 0.8;
-    } */
 
     /* Ajustement du Design Mobile 320px à 574px */
     @media screen and (min-width:360px) and (max-width:574px) and (orientation: portrait)       /* 20em - Mobiles           */

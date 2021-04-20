@@ -25,7 +25,6 @@
   .btn-danger {
     color: #dc3545;
     background-color: #ffffff;
-    /* background-color: #d2515b; */
     border-color: #dc3545;
   }
   
@@ -60,7 +59,6 @@
   .btn-primary {
     color: #0062cc;
     background-color: #ffffff;
-    /* background-color: #0e2042; */
     border-color: #0062cc;
   }
   

@@ -63,7 +63,7 @@
 
                 // Messages
                 OnError:'Une erreur est survenue',
-                OnSucess:'Le message à été modéré',
+                OnSucess:'Le message a été modéré',
             }
         },
 
@@ -82,7 +82,6 @@
                 'Loading',
                 'subOkay',
                 'subCompleted',
-
                 'subFailure',
                 'MSGfaillure'
             ]),
@@ -93,7 +92,6 @@
             MsgVerify(){
                 this.$store.dispatch("MsgVerifyFail");
             },
-
             RemoveAttachment(){
                 this.$store.dispatch("RemoveMAttachment");
             },
