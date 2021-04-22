@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+const helmet = require("helmet");
 
 
 // On importe l'API routeur, on précise aussi qu'on veut l'objet .router
@@ -21,8 +22,11 @@ server.use((req, res, next) => {
 });
 
 // Body Parser Configuration
-server.use(bodyParser.urlencoded({extended:true}));
-server.use(bodyParser.json());
+server.use(express.urlencoded({extended:true}));
+server.use(express.json());
+
+// Helmet
+server.use(helmet());
 
 // Configure Routes (with callBack functions)
 server.get ('/', function(req, res, next){
@@ -40,3 +44,4 @@ server.use('/api/', apiRouter);
 server.listen(3000, function(){
     console.log('Server OK');
 });
+
