@@ -10,7 +10,7 @@
                     <p class="Content">{{Post.content}}</p><br/>
                     <hr v-if="Connected">
                     <div v-if="Connected" class="Buttons row justify-content-center">
-                        <button @click.stop="Like(Post.id)" type="button" title="J'aime" class="btn btn-primary text-center"><i class="far fa-thumbs-up"></i> {{Post.likes}}</button>
+                        <button @click.stop="Like(Post.id)" type="button" title="J'aime" class="btn btn-primary text-center"><i class="far fa-heart"></i> {{Post.likes}}</button>
                         <button @click="EditPost(Post.id)" v-if="Post.User.username == userName" type="button" title="Editer" class="btn btn-primary text-center" data-toggle="modal" data-target="#EditModal"><i class="fas fa-pen"></i></button>
                         <button @click="ModeratePost(Post.id)" v-if="isAdmin" type="button" title="Modérer" class="btn btn-danger text-center" data-toggle="modal" data-target="#ModerateModal"><i class="fas fa-exclamation-circle"></i></button>
                         <button @click.stop="DeletePost(Post.id)" v-if="isAdmin || Post.User.username == userName" type="button" title="Supprimer" class="btn btn-danger text-center"><i class="far fa-trash-alt"></i></button>

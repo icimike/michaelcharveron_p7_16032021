@@ -719,7 +719,7 @@ export default createStore({
         CheckConfirm({ commit }) {
             let Confirm = document.getElementById("Confirmation").value;
 
-            if (Confirm == "J'accepte") {
+            if (Confirm == "Stop") {
                 commit("setChkConfirm", true);
             } else {
                 commit("setChkConfirm", false);

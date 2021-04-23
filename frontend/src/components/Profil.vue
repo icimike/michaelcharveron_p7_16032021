@@ -84,13 +84,12 @@
                     <div class="labelsAlign modal-body">
                         <p class="alert alert-danger"> 
                             <strong> Avertissement : </strong> Cette opération est irréversible! <br/>
-                            Toutes les informations vous concernant vont être supprimés : <br/>
-                            Message(s), Commentaire(s), Mention(s) "J'aime", Bio, Nom, E-mail.
+                            Votre compte sera supprimé définitivment <br/>
                         </p>
 
                         <div class="form-group">
                             <label for="Confirmation"><i class="fas fa-pen"></i> Veuillez confirmer votre demande : </label>
-                            <input @keyup="checkConfirm" type="text" class="form-control" id="Confirmation" placeholder="Tapez : J'accepte" name="Confirmation">
+                            <input @keyup="checkConfirm" type="text" class="form-control" id="Confirmation" placeholder="Tapez : Stop" name="Confirmation">
                         </div>
                         <div v-if="subFailure" class="alert alert-danger">
                             {{MSGfaillure}}

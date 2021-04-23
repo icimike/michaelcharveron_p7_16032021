@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const helmet = require("helmet");
 
+// require('dotenv').config();
 
 // On importe l'API routeur, on précise aussi qu'on veut l'objet .router
 const apiRouter = require('./apiRouter').router;
