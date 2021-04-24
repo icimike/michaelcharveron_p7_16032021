@@ -30,7 +30,7 @@
 
             ...mapGetters([
                 
-                // Utilisateur
+                // Utilisateurs
                 'Connected',
                 'isAdmin',
 

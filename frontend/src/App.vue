@@ -3,7 +3,7 @@
 </template>
 
 <style>
-/* CUSTOM BOOTSTRAP START */
+/* CUSTOM BOOTSTRAP */
 :root {
     --blue: #182643;
     --red: #d2515b;

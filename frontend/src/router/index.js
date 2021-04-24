@@ -10,7 +10,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  // Permet de conserver l'historique des pages web
+  // Permet de conserver l'historique des pages
   history: createWebHistory(process.env.BASE_URL),
   routes
 })

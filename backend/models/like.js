@@ -1,3 +1,4 @@
+// Activation du mode STRICT de Javascript
 'use strict';
 const {
   Model

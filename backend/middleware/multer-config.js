@@ -1,4 +1,4 @@
-// import des packages
+// import
 const multer = require('multer');
 
 // Définition des Types MIME acceptés

@@ -75,7 +75,7 @@
                 'MSGfaillure'
             ]),
         },
-        // Création de la logique du module
+        // Création logique module
         methods:{
             LogInVerify(){
                 this.$store.dispatch("LogInVerify");

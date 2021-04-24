@@ -176,7 +176,7 @@
             ]),
         },
 
-        // Création de la logique du module
+        // Création logique module
         methods:{
             checkBio(){     
                 this.$store.dispatch("checkBio");

@@ -15,7 +15,6 @@
 <script>
 import { mapGetters } from 'vuex'
 
-// @ is an alias to /src
 import HeaderNav from '@/components/HeaderNav.vue'
 import SignIn from '@/components/SignIn.vue'
 import Login from '@/components/Login.vue'

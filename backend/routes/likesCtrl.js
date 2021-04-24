@@ -1,4 +1,4 @@
-// Activation du mode STRICT de Javascript
+// Activation du mode STRICT JS
 "use strict";
 
 // Imports

@@ -6,7 +6,7 @@ export default createStore({
         urlAPI: 'http://localhost:3000',
         footer: 'Groupomania',
 
-        // Déclaration des données du "store" de vue X
+        // Déclaration des données du store de vue X
         SignIn: {
             // SignIn & LogIn
             CHKeMail: false,

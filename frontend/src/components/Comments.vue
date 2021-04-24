@@ -96,14 +96,14 @@
 
 <style scoped>
     /* Ajustement du Design Mobile 320px à 574px */
-    @media screen and (min-width:360px) and (max-width:574px) and (orientation: portrait)       /* 20em - Mobiles           */
+    @media screen and (min-width:360px) and (max-width:574px) and (orientation: portrait)
     {
         i
         {
             font-size : 1em;
         }
     }
-    @media screen and (min-width:320px) and (max-width:359px) and (orientation: portrait)       /* 20em - Mobiles           */
+    @media screen and (min-width:320px) and (max-width:359px) and (orientation: portrait)
     {
         i
         {

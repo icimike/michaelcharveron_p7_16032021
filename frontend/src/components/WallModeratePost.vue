@@ -107,7 +107,7 @@
 
 <style scoped>
     /* Ajustement du Design Mobile 320px à 574px */
-    @media screen and (min-width:360px) and (max-width:574px) and (orientation: portrait)       /* 20em - Mobiles           */
+    @media screen and (min-width:360px) and (max-width:574px) and (orientation: portrait)
     {
         h4
         {
@@ -124,7 +124,7 @@
             font-size : 0.745em;
         }
     }
-    @media screen and (min-width:320px) and (max-width:359px) and (orientation: portrait)       /* 20em - Mobiles           */
+    @media screen and (min-width:320px) and (max-width:359px) and (orientation: portrait)
     {
         h4
         {

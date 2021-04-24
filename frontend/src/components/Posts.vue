@@ -126,7 +126,7 @@
     }
 
     /* Ajustement du Design Mobile 320px à 574px */
-    @media screen and (min-width:360px) and (max-width:574px) and (orientation: portrait)       /* 20em - Mobiles           */
+    @media screen and (min-width:360px) and (max-width:574px) and (orientation: portrait)
     {
         h4, h5
         {
@@ -138,7 +138,7 @@
             font-size : 1.1em;
         }
     }
-    @media screen and (min-width:320px) and (max-width:359px) and (orientation: portrait)       /* 20em - Mobiles           */
+    @media screen and (min-width:320px) and (max-width:359px) and (orientation: portrait)
     {
         h4, h5
         {
