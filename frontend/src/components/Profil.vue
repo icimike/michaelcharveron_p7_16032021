@@ -84,7 +84,7 @@
                     <div class="labelsAlign modal-body">
                         <p class="alert alert-danger"> 
                             <strong> Avertissement : </strong> Cette opération est irréversible! <br/>
-                            Votre compte sera supprimé définitivment <br/>
+                            Votre compte sera supprimé définitivment, pour cela vos devez supprimer au préalable vos posts et likes. <br/>
                         </p>
 
                         <div class="form-group">

@@ -766,7 +766,7 @@ export default createStore({
             })
             .catch(err => {
                 commit('setsubFailure', true);
-                commit('setMSGfaillure',"Erreur lors de la désinscription, merci de contacter votre administrateur");
+                commit('setMSGfaillure',"Erreur lors de la désinscription. Avez-vous, au préalable, supprimé TOUT vos posts et likes ? En cas de problème persistant, merci de contacter votre administrateur");
                 console.log(err);
             });
         },
